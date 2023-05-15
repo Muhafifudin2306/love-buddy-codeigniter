@@ -10,12 +10,11 @@
     <!-- SweetAlert2 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
 
-
     <!-- Datatable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
 </head>
 
-<body>
+<body class="bg-light">
     <?php if ($this->session->flashdata('success')) { ?>
         <script>
             Swal.fire({
@@ -54,56 +53,43 @@
     <!-- Navbar start -->
     <?php $this->load->view('layout/navbar'); ?>
     <!-- Navbar end -->
-
-    <!-- Main Menu -->
     <div class="py-5 mt-5">
         <div class="container">
-            <h5 class="py-5 fw-bold">Feedback Pengguna</h5>
+            <div class="d-flex justify-content-between pt-5 pb-3">
+                <h5 class="fw-bold">Detail Pesan</h5>
+                <a href="<?= base_url('admin/feedback') ?>">
+                    <i class="bi bi-x text-first fs-1"></i></a>
+
+            </div>
+
             <div class="bg-white p-5 border">
-                <table id="example" class="table display">
-                    <thead>
-                        <tr">
-                            <th class="text-center" scope="col">No</th>
-                            <th class="text-center" scope="col">Nama Lengkap</th>
-                            <th class="text-center" scope="col">Email</th>
-                            <th class="text-center" scope="col">No. Telephone</th>
-                            <th class="text-center" scope="col">Aksi</th>
-                            </tr>
-                    </thead>
-                    <tbody>
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="exampleInputname1" class="form-label fw-bold">Nama Lengkap
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" name="name" class="form-control" id="exampleInputname1"
+                            value="<?php echo $user->name ?>" disabled>
+                    </div>
+                    <label for="exampleInputEmail1" class="form-label fw-bold">Email
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" name="email"
+                        value="<?php echo $user->email ?>" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputname1" class="form-label fw-bold">Nomor Telephone
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" name="name" class="form-control" id="exampleInputname1"
+                        value="<?php echo $user->telephone ?>" disabled>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Pesan</label>
+                    <textarea class="form-control" name="message" rows="7"
+                        disabled><?php echo $user->message ?></textarea>
+                </div>
 
-                        <?php
-                        $no = 1;
-                        foreach ($feedbacks as $row) {
-                            ?>
-                            <tr>
-                                <td class="text-center text-decoration-none">
-                                    <?php echo $no++ ?>
-                                </td>
-                                <td>
-                                    <?php echo $row->name; ?>
-                                </td>
-                                <td>
-                                    <?php echo $row->email; ?>
-                                </td>
-                                <td class="text-center">
-                                    <?php echo $row->telephone; ?>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <?php echo anchor('admin/detail_feedback/' . $row->id, "<button class='btn btn-warning border-0'>Lihat</button>"); ?>
-                                        <button onclick="return confirm('Do you want delete this record')"
-                                            class="btn btn-danger">
-                                            <?php echo anchor('admin/delete_feedback/' . $row->id, "<span class='text-white border-0 text-decoration-none'>Hapus</span>"); ?>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php } ?>
-
-
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -116,7 +102,6 @@
             $('#example').DataTable();
         });
     </script>
-
 
     <!-- Footer start -->
     <footer class="bgr-first p-3">
@@ -149,38 +134,6 @@
 
     <!-- Register Section End -->
     <!-- Feather Icons -->
-
-    <script>
-        AOS.init();
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.js"></script>
-    <?php $this->load->view('layout/script'); ?>
-    <script>
-        // Menambahkan event listener pada tombol "Cek Akun"
-        document.getElementById("check-account-btn").addEventListener("click", function () {
-            // Menampilkan modal dialog SweetAlert2
-            Swal.fire({
-                title: 'Apakah Anda sudah memiliki akun?',
-                showCancelButton: true,
-                confirmButtonText: 'Sudah',
-                cancelButtonText: 'Belum',
-                customClass: {
-                    confirmButton: 'btn',
-                    cancelButton: 'btn'
-                },
-                buttonsStyling: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect ke halaman login
-                    window.location.href = "<?php echo base_url('auth/login'); ?>";
-                } else if (result.isDismissed) {
-                    // Redirect ke halaman registrasi
-                    window.location.href = "<?php echo base_url('auth/register'); ?>";
-                }
-            });
-        });
-
-    </script>
 </body>
 
 </html>

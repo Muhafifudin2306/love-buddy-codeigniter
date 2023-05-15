@@ -301,22 +301,23 @@
                 <div class="p-5">
                     <p class="text-center fs-5">Saran dan kritik kalian sangat berarti untuk, <span
                             class="text-first fst-italic fw-bold">LoveBuddy</span> </p>
-                    <form class="pt-4">
+                    <form action="<?= base_url('front/save_feedback') ?>" method="post" class="pt-4">
                         <div class="mb-3">
                             <label class="form-label">Nama</label>
-                            <input type="text" placeholder="Nama Lengkap" class="form-control">
+                            <input type="text" name="name" placeholder="Nama Lengkap" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email address</label>
-                            <input type="email" placeholder="example@example.com" class="form-control" required>
+                            <input type="email" name="email" placeholder="example@example.com" class="form-control"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">No. Telepon</label>
-                            <input type="text" placeholder="+62xx-xxx-xx-xxx" class="form-control">
+                            <input type="text" name="telephone" placeholder="+62xx-xxx-xx-xxx" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Pesan</label>
-                            <textarea class="form-control" rows="7" required></textarea>
+                            <textarea class="form-control" name="message" rows="7" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-danger bg-first border-0 rounded fs-7 w-100 py-2">Kirim
                             Pesan</button>

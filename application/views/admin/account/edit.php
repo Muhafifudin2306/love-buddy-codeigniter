@@ -55,7 +55,13 @@
     <!-- Navbar end -->
     <div class="py-5 mt-5">
         <div class="container">
-            <h5 class="py-5 fw-bold">Pengaturan Akun</h5>
+            <div class="d-flex justify-content-between pt-5 pb-3">
+                <h5 class="fw-bold">Edit Akun</h5>
+                <a href="<?= base_url('admin/account') ?>">
+                    <i class="bi bi-x text-first fs-1"></i></a>
+
+            </div>
+
             <div class="bg-white p-5 border">
                 <form method="post" action="<?php echo base_url('admin/update_account/' . $user->id); ?>">
                     <div class="mb-3">

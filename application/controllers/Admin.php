@@ -8,7 +8,7 @@ class Admin extends CI_Controller
         parent::__construct();
         $this->load->model('AuthModel');
         $this->load->model('UserModel');
-        $this->load->library('pagination');
+        $this->load->model('FeedbackModel');
 
         if (empty($this->session->userdata('is_login'))) {
             $this->session->set_flashdata('error', 'Sesi Anda Telah Berakhir');
@@ -35,9 +35,30 @@ class Admin extends CI_Controller
     {
         $data = [
             'id_role' => $this->session->userdata('id_role'),
-            'is_login' => $this->session->userdata('is_login')
+            'is_login' => $this->session->userdata('is_login'),
+            'feedbacks' => $this->FeedbackModel->get_data_feedback()
         ];
         $this->load->view('admin/feedback/index', $data);
+    }
+
+    function detail_feedback($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'user' => $this->FeedbackModel->get_feedback_by_id($id)
+        ];
+        $this->load->view('admin/feedback/detail', $data);
+    }
+    public function delete_feedback($id)
+    {
+        $where = array('id' => $id);
+        $this->db->where($where);
+        $this->db->delete('feedbacks');
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Delete Berhasil');
+        redirect('admin/feedback');
     }
 
     public function account()
