@@ -64,13 +64,56 @@
                     <p class="fs-5">your personal guide to happier love life</p>
                     <!-- <a target="_blank"
                         href="http://wa.me/6282329053400?text=Hai%20Buddy,%20aku%20mau%20konseling%20nih!"> -->
-                    <button id="check-account-btn" class="btn btn-danger px-4 border-0 fs-7 py-3 rounded-5 bg-first">
-                        Jadwalkan Konsultasimu</button>
+
                     <!-- </a> -->
+                    <?php if ($is_login) { ?>
+                        <button class="btn btn-danger px-4 border-0 fs-7 py-3 rounded-5 bg-first" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            Jadwalkan Konsultasimu</button>
+                    <?php } else { ?>
+                        <button id="check-account-btn" class="btn btn-danger px-4 border-0 fs-7 py-3 rounded-5 bg-first">
+                            Jadwalkan Konsultasimu</button>
+                    <?php } ?>
                 </div>
             </div>
         </div>
     </section>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-5">
+                <div class="modal-body bg-two rounded-5 p-4">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn-close p-2 bg-white rounded-circle" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 py-4">
+                            <h4 class="fw-bold text-center mb-3">Konseling Voice Call</h4>
+                            <h6 class="fw-thin text-center mb-3">By Whatsapp</h6>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-danger px-5 py-2 bg-first border-0 rounded-5">Jadwalkan
+                                    Konsultasi</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 p-4 d-flex justify-content-center">
+                            <div class="bgr-first w-25 h-100 rounded-5">
+                            </div>
+                        </div>
+                        <div class="col-sm-5 py-4">
+                            <h4 class="fw-bold text-center mb-3">Konseling Video Call</h4>
+                            <h6 class="fw-thin text-center mb-3">By Google Meet</h6>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-secondary px-5 py-2 border-0 rounded-5">Coming
+                                    Soon</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- About Section start -->
     <section id="about" class="about py-5">
@@ -341,7 +384,7 @@
                 if (result.isConfirmed) {
                     // Redirect ke halaman login
                     window.location.href = "<?php echo base_url('auth/login'); ?>";
-                } else {
+                } else if (result.isDismissed) {
                     // Redirect ke halaman registrasi
                     window.location.href = "<?php echo base_url('auth/register'); ?>";
                 }

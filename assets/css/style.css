@@ -122,3 +122,7 @@ body {
 /* .swal2-title {
     font-size: 25px !important;
 } */
+
+a {
+    text-decoration: none !important;
+}

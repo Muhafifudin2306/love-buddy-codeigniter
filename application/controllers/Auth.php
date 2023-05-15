@@ -42,7 +42,7 @@ class Auth extends CI_Controller
                 'id_role' => $id_role
             );
             $this->db->insert('users', $data);
-            $this->session->set_flashdata('success', 'Proses Pendaftaran User Berhasil');
+            $this->session->set_flashdata('success', 'Register Berhasil');
             redirect('auth/login');
         } else {
             $this->session->set_flashdata('error', validation_errors());

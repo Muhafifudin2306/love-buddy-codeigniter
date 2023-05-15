@@ -8,21 +8,36 @@
         </button>
         <div class="collapse navbar-collapse justify-content-center gap-2" id="navbarSupportedContent">
             <ul class="navbar-nav gap-3">
-                <li class="nav-item">
-                    <a class="nav-link text-black fs-7" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fs-7" href="#about">Tentang Kami</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fs-7" href="#service">Layanan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fs-7" href="#product">Konsultasi</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fs-7" href="#contact">Kontak</a>
-                </li>
+                <?php if ($id_role != 1) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link text-black fs-7" aria-current="page" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black fs-7" href="#about">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black fs-7" href="#service">Layanan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black fs-7" href="#product">Konsultasi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black fs-7" href="#contact">Kontak</a>
+                    </li>
+                <?php } else if ($id_role == 1) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link text-black fs-7" aria-current="page"
+                                href="<?php echo base_url('front') ?>">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black fs-7" aria-current="page"
+                                href="<?php echo base_url('admin/account') ?>">Pengaturan Akun</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black fs-7" aria-current="page"
+                                href="<?php echo base_url('admin/feedback') ?>">Feedback</a>
+                        </li>
+                <?php } ?>
             </ul>
         </div>
         <div class="d-flex gap-2">
