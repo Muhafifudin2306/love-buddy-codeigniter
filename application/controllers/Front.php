@@ -21,6 +21,9 @@ class Front extends CI_Controller
      */
     public function index()
     {
-        $this->load->view('index');
+        $data = [
+            'is_login' => $this->session->userdata('is_login')
+        ];
+        $this->load->view('index', $data);
     }
 }
