@@ -9,6 +9,7 @@ class Admin extends CI_Controller
         $this->load->model('AuthModel');
         $this->load->model('UserModel');
         $this->load->model('FeedbackModel');
+        $this->load->model('ConsultationModel');
 
         if (empty($this->session->userdata('is_login'))) {
             $this->session->set_flashdata('error', 'Sesi Anda Telah Berakhir');
@@ -110,6 +111,155 @@ class Admin extends CI_Controller
         redirect('admin/account');
     }
 
+    // Setting Page
+    public function setting()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'categories' => $this->ConsultationModel->get_data_category(),
+            'educations' => $this->ConsultationModel->get_data_education()
+        ];
+        $this->load->view('admin/setting/index', $data);
+    }
 
+    // Setting Education
+    function education_add()
+    {
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+        ];
+        $this->load->view('admin/education/add', $data);
+    }
+
+    function education_save()
+    {
+        $state = $this->input->post('state');
+        $field = $this->input->post('field');
+        $university = $this->input->post('university');
+        $data = array(
+            'state' => $state,
+            'university' => $university,
+            'field' => $field,
+            // dan seterusnya
+        );
+        $insert_id = $this->ConsultationModel->insert_education($data);
+        if ($insert_id) {
+            $this->session->set_flashdata('success', 'Pesan Terkirim');
+            redirect('/admin/setting');
+        } else {
+            $this->session->set_flashdata('error', 'input salah');
+            redirect('/admin/setting');
+        }
+    }
+
+    function edit_education($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'education' => $this->ConsultationModel->get_education_by_id($id)
+        ];
+        $this->load->view('admin/education/edit', $data);
+    }
+
+    public function update_education($id)
+    {
+        // Validasi form di sini
+        // ...
+
+        $data = array(
+            'state' => $this->input->post('state'),
+            'field' => $this->input->post('field'),
+            'university' => $this->input->post('university'),
+            'id' => $id
+        );
+        $this->ConsultationModel->updateEducation($data);
+
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Update Berhasil');
+        redirect('admin/setting');
+    }
+
+    public function delete_education($id)
+    {
+        $where = array('id' => $id);
+        $this->db->where($where);
+        $this->db->delete('educations');
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Delete Berhasil');
+        redirect('admin/setting');
+    }
+    // Setting Education
+
+    // Setting Category
+    function category_add()
+    {
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+        ];
+        $this->load->view('admin/category/add', $data);
+    }
+
+    function category_save()
+    {
+        $name = $this->input->post('name');
+        $data = array(
+            'name' => $name
+            // dan seterusnya
+        );
+        $insert_id = $this->ConsultationModel->insert_category($data);
+        if ($insert_id) {
+            $this->session->set_flashdata('success', 'Pesan Terkirim');
+            redirect('/admin/setting');
+        } else {
+            $this->session->set_flashdata('error', 'input salah');
+            redirect('/admin/setting');
+        }
+    }
+
+
+    function edit_category($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'category' => $this->ConsultationModel->get_category_by_id($id)
+        ];
+        $this->load->view('admin/category/edit', $data);
+    }
+
+    public function update_category($id)
+    {
+        // Validasi form di sini
+        // ...
+
+        $data = array(
+            'name' => $this->input->post('name'),
+            'id' => $id
+        );
+        $this->ConsultationModel->updateCategory($data);
+
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Update Berhasil');
+        redirect('admin/setting');
+    }
+
+    public function delete_category($id)
+    {
+        $where = array('id' => $id);
+        $this->db->where($where);
+        $this->db->delete('categories');
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Delete Berhasil');
+        redirect('admin/setting');
+    }
+    // Setting Category
+
+    // Setting Page
 
 }

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
 </head>
 
-<body>
+<body class="bg-light">
     <?php if ($this->session->flashdata('success')) { ?>
         <script>
             Swal.fire({

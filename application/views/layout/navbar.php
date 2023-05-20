@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg fixed-top bg-white bg-opacity-75 border-bottom-first">
     <div class="container">
         <a href="https://www.instagram.com/lovebuddy.id/" class="navbar-brand d-none d-md-inline"> <img
-                src="https://lovebuddy.id/img/logopanjang.png" alt="logo" width="120"> </a>
+                src="https://lovebuddy.id/assets/img/logopanjang.png" alt="logo" width="120"> </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,11 +31,15 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-black fs-7" aria-current="page"
-                                href="<?php echo base_url('admin/account') ?>">Pengaturan Akun</a>
+                                href="<?php echo base_url('admin/account') ?>">Akses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-black fs-7" aria-current="page"
                                 href="<?php echo base_url('admin/feedback') ?>">Feedback</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black fs-7" aria-current="page"
+                                href="<?php echo base_url('admin/setting') ?>">Pengaturan</a>
                         </li>
                 <?php } ?>
             </ul>
