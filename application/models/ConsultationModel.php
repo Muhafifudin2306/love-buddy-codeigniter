@@ -81,4 +81,44 @@ class ConsultationModel extends CI_Model
     // Education Model
 
 
+    // Service Model
+
+    public function get_data_service()
+    {
+        return $this->db->get('services')->result();
+    }
+
+    public function insert_service($data)
+    {
+        $this->db->insert('services', $data);
+        return $this->db->insert_id();
+    }
+
+
+    public function get_service_by_id($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('services');
+
+        return $query->row(); // mengembalikan sebuah objek hasil query
+    }
+
+    public function updateService($data)
+    {
+        $name = $data['name'];
+        $media = $data['media'];
+        $icon = $data['icon'];
+        $id = $data['id'];
+
+        $data = array(
+            'name' => $name,
+            'media' => $media,
+            'icon' => $icon
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('services', $data);
+    }
+    // Service Model
+
 }

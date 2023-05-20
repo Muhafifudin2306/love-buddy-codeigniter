@@ -118,7 +118,8 @@ class Admin extends CI_Controller
             'id_role' => $this->session->userdata('id_role'),
             'is_login' => $this->session->userdata('is_login'),
             'categories' => $this->ConsultationModel->get_data_category(),
-            'educations' => $this->ConsultationModel->get_data_education()
+            'educations' => $this->ConsultationModel->get_data_education(),
+            'services' => $this->ConsultationModel->get_data_service()
         ];
         $this->load->view('admin/setting/index', $data);
     }
@@ -260,6 +261,79 @@ class Admin extends CI_Controller
     }
     // Setting Category
 
+
+    // Service Category
+
+    // Service Category
+    function service_add()
+    {
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+        ];
+        $this->load->view('admin/service/add', $data);
+    }
+
+    function service_save()
+    {
+        $name = $this->input->post('name');
+        $media = $this->input->post('media');
+        $icon = $this->input->post('icon');
+        $data = array(
+            'name' => $name,
+            'media' => $media,
+            'icon' => $icon
+            // dan seterusnya
+        );
+        $insert_id = $this->ConsultationModel->insert_service($data);
+        if ($insert_id) {
+            $this->session->set_flashdata('success', 'Pesan Terkirim');
+            redirect('/admin/setting');
+        } else {
+            $this->session->set_flashdata('error', 'input salah');
+            redirect('/admin/setting');
+        }
+    }
+
+
+    function edit_service($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'service' => $this->ConsultationModel->get_service_by_id($id)
+        ];
+        $this->load->view('admin/service/edit', $data);
+    }
+
+    public function update_service($id)
+    {
+        // Validasi form di sini
+        // ...
+
+        $data = array(
+            'name' => $this->input->post('name'),
+            'icon' => $this->input->post('icon'),
+            'media' => $this->input->post('media'),
+            'id' => $id
+        );
+        $this->ConsultationModel->updateService($data);
+
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Update Berhasil');
+        redirect('admin/setting');
+    }
+
+    public function delete_service($id)
+    {
+        $where = array('id' => $id);
+        $this->db->where($where);
+        $this->db->delete('services');
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Delete Berhasil');
+        redirect('admin/setting');
+    }
     // Setting Page
 
 }

@@ -156,6 +156,58 @@
                     </tbody>
                 </table>
             </div>
+            <div class="d-flex justify-content-between align-items-center py-5">
+                <h5 class="fw-bold">Layanan</h5>
+                <a href="<?= base_url('admin/service_add') ?>">
+                    <button class="btn btn-success">+ Tambah</button>
+                </a>
+            </div>
+            <div class="bg-white p-5 border">
+                <table id="example3" class="table display">
+                    <thead>
+                        <tr">
+                            <th class="text-center" scope="col">No</th>
+                            <th class="text-center" scope="col">Nama Layanan</th>
+                            <th class="text-center" scope="col">Media</th>
+                            <th class="text-center" scope="col">Icon</th>
+                            <th class="text-center" scope="col">Aksi</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php
+                        $no = 1;
+                        foreach ($services as $row) {
+                            ?>
+                            <tr class="text-center">
+                                <td class="text-center text-decoration-none">
+                                    <?php echo $no++ ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->name; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->media; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->icon; ?>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <?php echo anchor('admin/edit_service/' . $row->id, "<button class='btn btn-warning border-0'>Edit</button>"); ?>
+                                        <button onclick="return confirm('Do you want delete this record')"
+                                            class="btn btn-danger">
+                                            <?php echo anchor('admin/delete_service/' . $row->id, "<span class='text-white border-0 text-decoration-none'>Hapus</span>"); ?>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
+
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -168,6 +220,9 @@
         });
         $(document).ready(function () {
             $('#example2').DataTable();
+        });
+        $(document).ready(function () {
+            $('#example3').DataTable();
         });
     </script>
 
