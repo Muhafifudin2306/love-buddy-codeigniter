@@ -119,7 +119,8 @@ class Admin extends CI_Controller
             'is_login' => $this->session->userdata('is_login'),
             'categories' => $this->ConsultationModel->get_data_category(),
             'educations' => $this->ConsultationModel->get_data_education(),
-            'services' => $this->ConsultationModel->get_data_service()
+            'services' => $this->ConsultationModel->get_data_service(),
+            'talents' => $this->ConsultationModel->get_data_talent()
         ];
         $this->load->view('admin/setting/index', $data);
     }
@@ -334,6 +335,123 @@ class Admin extends CI_Controller
         $this->session->set_flashdata('success', 'Delete Berhasil');
         redirect('admin/setting');
     }
+
+
+
+
+    // Consultation Page
+    function consultation_add()
+    {
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'categories' => $this->ConsultationModel->get_data_category(),
+            'educations' => $this->ConsultationModel->get_data_education(),
+            'services' => $this->ConsultationModel->get_data_service()
+        ];
+        $this->load->view('admin/consultation/add', $data);
+    }
+
+    function consultation_save()
+    {
+
+        //load library upload
+        $this->load->library('upload');
+
+        //konfigurasi upload
+        $config['upload_path'] = './assets/img/';
+        $config['allowed_types'] = '*';
+        $config['max_size'] = 10000;
+
+        //inisialisasi upload
+        $this->upload->initialize($config);
+
+        //jika gagal upload
+        if (!$this->upload->do_upload('cover')) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('upload_error', $error);
+            redirect('admin/consultation_add', $error);
+        }
+        //jika berhasil upload
+        else {
+            $data = array(
+                'name' => $this->input->post('name', TRUE),
+                'summary' => $this->input->post('summary', TRUE),
+                'quote' => $this->input->post('quote', TRUE),
+                'nip' => $this->input->post('nip', TRUE),
+                'experience' => $this->input->post('experience', TRUE),
+                'video' => $this->input->post('video', TRUE),
+                'cover' => $this->upload->data('file_name')
+            );
+
+
+            if ($this->ConsultationModel->insert_talent($data)) {
+                $this->session->set_flashdata(
+                    'success',
+                    'Success Add Data'
+                );
+
+                $id_data = $this->db->insert_id();
+                $category = $this->input->post('category');
+                foreach ($category as $row) {
+                    $data_category = array(
+                        'id_talent' => $id_data,
+                        'id_category' => $row
+                    );
+                    $this->ConsultationModel->save_category_relation($data_category);
+                }
+
+                $service = $this->input->post('service');
+                foreach ($service as $row) {
+                    $data_service = array(
+                        'id_talent' => $id_data,
+                        'id_service' => $row
+                    );
+                    $this->ConsultationModel->save_service_relation($data_service);
+                }
+
+                $education = $this->input->post('education');
+                foreach ($education as $row) {
+                    $data_education = array(
+                        'id_talent' => $id_data,
+                        'id_education' => $row
+                    );
+                    $this->ConsultationModel->save_education_relation($data_education);
+                }
+
+                redirect('admin/setting');
+            }
+        }
+    }
+    public function delete_talent($id)
+    {
+        $where = array('id' => $id);
+        $this->db->where($where);
+        $this->db->delete('talents');
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Delete Berhasil');
+        redirect('admin/setting');
+    }
+
+    function edit_talent($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'talent' => $this->ConsultationModel->get_talent_by_id($id),
+            'educations' => $this->ConsultationModel->get_data_education(),
+            'categories' => $this->ConsultationModel->get_data_category(),
+            'detail_category' => $this->ConsultationModel->get_category_by_id_talent($id),
+            'detail_education' => $this->ConsultationModel->get_education_by_id_talent($id),
+            'detail_service' => $this->ConsultationModel->get_service_by_id_talent($id),
+            'services' => $this->ConsultationModel->get_data_service()
+        ];
+        $this->load->view('admin/consultation/edit', $data);
+    }
+    // Consultation Page
+
+
     // Setting Page
 
 }

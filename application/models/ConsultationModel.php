@@ -6,7 +6,7 @@ class ConsultationModel extends CI_Model
     {
         parent::__construct();
     }
-    // Category Model
+    // talent Model
     public function get_data_category()
     {
         return $this->db->get('categories')->result();
@@ -120,5 +120,74 @@ class ConsultationModel extends CI_Model
         $this->db->update('services', $data);
     }
     // Service Model
+
+
+    // Talent Model
+    public function get_data_talent()
+    {
+        return $this->db->get('talents')->result();
+    }
+    public function insert_talent($data)
+    {
+        $this->db->insert('talents', $data);
+        return $this->db->insert_id();
+    }
+
+    public function save_category_relation($data)
+    {
+        $this->db->insert('talent_has_category', $data);
+    }
+
+    public function save_service_relation($data)
+    {
+        $this->db->insert('talent_has_service', $data);
+    }
+
+
+    public function save_education_relation($data)
+    {
+        $this->db->insert('talent_has_education', $data);
+    }
+
+    public function get_talent_by_id($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('talents');
+
+        return $query->row(); // mengembalikan sebuah objek hasil query
+    }
+
+    public function get_category_by_id_talent($id)
+    {
+        $this->db->select('talents.*, GROUP_CONCAT(talent_has_category.id_category) AS category_ids, GROUP_CONCAT(talent_has_category.id_talent) AS talent_ids');
+        $this->db->from('talents');
+        $this->db->join('talent_has_category', 'talents.id = talent_has_category.id_talent', 'left');
+        $this->db->where('talents.id', $id);
+        $this->db->group_by('talents.id');
+        $query = $this->db->get();
+        return $query->row();
+    }
+    public function get_education_by_id_talent($id)
+    {
+        $this->db->select('talents.*, GROUP_CONCAT(talent_has_education.id_education) AS education_ids, GROUP_CONCAT(talent_has_education.id_talent) AS talent_ids');
+        $this->db->from('talents');
+        $this->db->join('talent_has_education', 'talents.id = talent_has_education.id_talent', 'left');
+        $this->db->where('talents.id', $id);
+        $this->db->group_by('talents.id');
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function get_service_by_id_talent($id)
+    {
+        $this->db->select('talents.*, GROUP_CONCAT(talent_has_service.id_service) AS service_ids, GROUP_CONCAT(talent_has_service.id_talent) AS talent_ids');
+        $this->db->from('talents');
+        $this->db->join('talent_has_service', 'talents.id = talent_has_service.id_talent', 'left');
+        $this->db->where('talents.id', $id);
+        $this->db->group_by('talents.id');
+        $query = $this->db->get();
+        return $query->row();
+    }
+    // Telnt Model
 
 }
