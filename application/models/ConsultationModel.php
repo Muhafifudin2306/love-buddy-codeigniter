@@ -188,6 +188,69 @@ class ConsultationModel extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
-    // Telnt Model
+    public function delete_category_relation($id)
+    {
+        $this->db->where('id_talent', $id);
+        $this->db->delete('talent_has_category');
+    }
+    public function delete_service_relation($id)
+    {
+        $this->db->where('id_talent', $id);
+        $this->db->delete('talent_has_service');
+    }
+    public function delete_education_relation($id)
+    {
+        $this->db->where('id_talent', $id);
+        $this->db->delete('talent_has_education');
+    }
+    public function updateTalent($id, $data)
+    {
+        $name = $data['name'];
+        $quote = $data['quote'];
+        $summary = $data['summary'];
+        $nip = $data['nip'];
+        $experience = $data['experience'];
+        $video = $data['video'];
+        $id = $data['id'];
+        $this->db->where('id', $id);
+        $talent = $this->db->get('talents')->row();
+        $cover = $talent->cover;
+
+        $config['upload_path'] = './assets/img/';
+        $config['allowed_types'] = '*';
+        $config['max_size'] = 10000;
+
+        $this->load->library('upload', $config);
+        //konfigurasi upload
+        if ($this->upload->do_upload('cover')) {
+            $data = array(
+                'name' => $name,
+                'quote' => $quote,
+                'summary' => $summary,
+                'nip' => $nip,
+                'experience' => $experience,
+                'video' => $video,
+                'cover' => $this->upload->data('file_name')
+
+            );
+            $this->db->where('id', $id);
+            $this->db->update('talents', $data);
+        }
+        // } else {
+        //     $data = array(
+        //         'name' => $name,
+        //         'nip' => $nip,
+        //         'summary' => $summary,
+        //         'video' => $video,
+        //         'experience' => $experience,
+        //         'quote' => $quote,
+        //         'cover' => $cover
+
+        //     );
+        //     $this->db->where('id', $id);
+        //     $this->db->update('talents', $data);
+        // }
+    }
+    // Talent Model
 
 }

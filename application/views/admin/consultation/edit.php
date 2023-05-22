@@ -71,7 +71,7 @@
                 </div>
             <?php endif; ?>
             <div class="bg-white p-5 border">
-                <form method="post" action="<?php echo base_url('admin/consultation_save'); ?>"
+                <form method="post" action="<?php echo base_url('admin/update_talent/' . $talent->id); ?>"
                     enctype="multipart/form-data">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Pengisi

@@ -449,6 +449,84 @@ class Admin extends CI_Controller
         ];
         $this->load->view('admin/consultation/edit', $data);
     }
+
+    public function update_talent($id)
+    {
+        //load library upload
+        // $this->load->library('upload');
+
+        // //konfigurasi upload
+        // $config['upload_path'] = './assets/images/admin/course/';
+        // $config['allowed_types'] = '*';
+        // $config['max_size'] = 10000;
+
+        // // Hapus relasi kelas dan kategori untuk data yang diupdate
+        $this->ConsultationModel->delete_category_relation($id);
+        $this->ConsultationModel->delete_service_relation($id);
+        $this->ConsultationModel->delete_education_relation($id);
+
+        // //inisialisasi upload
+        // $this->upload->initialize($config);
+        //load library upload
+        $this->load->library('upload');
+
+        //konfigurasi upload
+        $config['upload_path'] = './assets/img/';
+        $config['allowed_types'] = '*';
+        $config['max_size'] = 10000;
+
+        //inisialisasi upload
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload('cover')) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('upload_error', $error);
+            redirect('admin/consultation_add', $error);
+        } else {
+            $data = array(
+                'name' => $this->input->post('name', TRUE),
+                'summary' => $this->input->post('summary', TRUE),
+                'quote' => $this->input->post('quote', TRUE),
+                'nip' => $this->input->post('nip', TRUE),
+                'experience' => $this->input->post('experience', TRUE),
+                // 'cover' => $this->upload->data('file_name'),
+                'video' => $this->input->post('video', TRUE),
+                'id' => $id
+
+            );
+            $this->ConsultationModel->updateTalent($id, $data);
+
+
+            $category = $this->input->post('category');
+            foreach ($category as $row) {
+                $data_category = array(
+                    'id_talent' => $id,
+                    'id_category' => $row
+                );
+                $this->ConsultationModel->save_category_relation($data_category);
+            }
+
+            $service = $this->input->post('service');
+            foreach ($service as $row) {
+                $data_service = array(
+                    'id_talent' => $id,
+                    'id_service' => $row
+                );
+                $this->ConsultationModel->save_service_relation($data_service);
+            }
+
+            $education = $this->input->post('education');
+            foreach ($education as $row) {
+                $data_education = array(
+                    'id_talent' => $id,
+                    'id_education' => $row
+                );
+                $this->ConsultationModel->save_education_relation($data_education);
+            }
+            $this->session->set_flashdata('success', 'Update Berhasil');
+            redirect('admin/setting');
+        }
+
+    }
     // Consultation Page
 
 
