@@ -126,3 +126,7 @@ body {
 a {
     text-decoration: none !important;
 }
+
+.text-lg {
+    font-size: 13px !important;
+}

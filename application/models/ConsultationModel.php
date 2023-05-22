@@ -235,22 +235,38 @@ class ConsultationModel extends CI_Model
             );
             $this->db->where('id', $id);
             $this->db->update('talents', $data);
-        }
-        // } else {
-        //     $data = array(
-        //         'name' => $name,
-        //         'nip' => $nip,
-        //         'summary' => $summary,
-        //         'video' => $video,
-        //         'experience' => $experience,
-        //         'quote' => $quote,
-        //         'cover' => $cover
 
-        //     );
-        //     $this->db->where('id', $id);
-        //     $this->db->update('talents', $data);
-        // }
+        } else {
+            $data = array(
+                'name' => $name,
+                'nip' => $nip,
+                'summary' => $summary,
+                'video' => $video,
+                'experience' => $experience,
+                'quote' => $quote,
+                'cover' => $cover
+
+            );
+            $this->db->where('id', $id);
+            $this->db->update('talents', $data);
+        }
     }
     // Talent Model
 
+
+    public function get_data_talent_relation()
+    {
+
+        $this->db->select('t.*, GROUP_CONCAT(categories.name) as category');
+        $this->db->from('talents t');
+        // $this->db->join('course_has_category', 'courses.id = course_has_category.id_course');
+        $this->db->join('talent_has_category thc', 't.id = thc.id_talent');
+        $this->db->join('categories', 'thc.id_category = categories.id');
+        // $this->db->join('user_has_course_saved uhc', 'c.id = uhc.id_course AND uhc.id_user = ' . $this->session->userdata('id'), 'left');
+        $this->db->group_by('t.id');
+        // $this->db->order_by('created_at', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+
+    }
 }

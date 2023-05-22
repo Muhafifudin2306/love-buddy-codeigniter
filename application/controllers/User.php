@@ -9,9 +9,7 @@ class User extends CI_Controller
         parent::__construct();
         $this->load->model('AuthModel');
         $this->load->model('UserModel');
-        $this->load->model('CourseModel');
-        $this->load->model('PlaylistModel');
-        $this->load->model('CategoryModel');
+        $this->load->model('ConsultationModel');
         $this->load->library('pagination');
 
         if (empty($this->session->userdata('is_login'))) {
@@ -162,6 +160,29 @@ class User extends CI_Controller
 
         $this->session->set_flashdata('success_add', 'email atau Password salah');
         redirect('userBranch/user/listClass');
+    }
+
+    // Consultant
+    public function consultation()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'categories' => $this->ConsultationModel->get_data_category(),
+            'talents' => $this->ConsultationModel->get_data_talent_relation()
+        ];
+        $this->load->view('admin/consultation/index', $data);
+    }
+
+    public function consultation_detail($id)
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'categories' => $this->ConsultationModel->get_data_category(),
+            'talents' => $this->ConsultationModel->get_data_talent_relation()
+        ];
+        $this->load->view('admin/consultation/detail', $data);
     }
 
 }
