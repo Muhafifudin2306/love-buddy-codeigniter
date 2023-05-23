@@ -63,47 +63,122 @@
             </div>
         </div>
     </div>
-    <div class="container col-lg-10">
-        <?php foreach ($talents as $talent): ?>
-            <div class="list-talent bg-white rounded p-5 my-3">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img class="w-100" src="<?= base_url('assets/img/' . $talent->cover) ?>" alt="">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="talent-title mb-3">
-                            <a href="<?= site_url('user/consultation_detail/' . $talent->id) ?>">
-                                <h5 class="fw-bold text-black">
-                                    <?= $talent->name ?>
-                                </h5>
-                            </a>
-                        </div>
-                        <div class="talent-category mb-3">
-                            <?php
-                            $category = explode(',', $talent->category);
-                            foreach ($category as $kat) {
-                                echo "
-                                    <button class='btn btn-danger bg-two border-0 text-first'>" . $kat . "</button>";
-                            }
-                            ?>
-                        </div>
-                        <div class="talent-experience mb-2">
-                            <i class="bi bi-briefcase-fill text-first"></i>
-                            <span class="text-first">
-                                <?= $talent->experience ?> Tahun Pengalaman
-                            </span>
-                        </div>
-                        <div class="talent-rating mb-2">
-                            <i class="bi bi-star-fill text-first"></i>
-                            <span class="text-first">
-                                <?= round($talent->rating) ?>%
-                            </span>
-                        </div>
-                    </div>
-                </div>
 
+    <div class="container col-md-6">
+
+        <div class="list-talent bg-white rounded p-5 my-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <img class="w-100 mb-3" src="<?= base_url('assets/img/' . $talent->cover) ?>" alt="">
+                </div>
+                <div class="col-md-12">
+                    <div class="talent-title mb-3">
+                        <a href="<?= site_url('user/consultation_detail/' . $talent->id) ?>">
+                            <h5 class="fw-bold text-black text-center">
+                                <?= $talent->name ?>
+                            </h5>
+                        </a>
+                    </div>
+                    <div class="talent-category mb-3 d-flex gap-2 justify-content-center">
+                        <div class="talent-category mb-3">
+                            <?php foreach ($talent_categories as $item): ?>
+                                <?php
+                                $category = explode(',', $item->category);
+                                foreach ($category as $kat) {
+                                    echo "
+                                    <button class='btn btn-danger bg-two border-0 text-first'>" . $kat . "</button>";
+                                }
+                                ?>
+                            <?php endforeach ?>
+                        </div>
+
+                    </div>
+                    <div class="talent-service mb-2">
+                        <hr>
+                        <p class="text-center">
+                            Melayani Via :
+                            <?php foreach ($talent_services as $row): ?>
+                                <?php
+                                $service_name = explode(',', $row->service_name);
+                                $service_icon = explode(',', $row->service_icon);
+                                foreach ($service_name as $name) {
+                                    foreach ($service_icon as $icon) {
+
+                                        echo "<span class='text-first mx-2'>" . $icon . "</span>";
+                                        echo "<span class='text-black'>" . $name . "</span>";
+                                    }
+                                }
+                                ?>
+                            <?php endforeach ?>
+                        </p>
+                        <hr>
+                    </div>
+
+                    <div class="line w-25 bgr-first rounded my-3" style="height:15px">
+                    </div>
+
+                    <div class="profile my-3">
+                        <h6 class="fw-bold"> Profile
+                            <?= $talent->name ?>
+                        </h6>
+                        <p>
+                            <?= $talent->summary ?>
+                        </p>
+                    </div>
+
+                    <div class="talent-quote bg-two py-1 px-3 rounded my-3">
+                        <div class="d-flex justify-content-between">
+                            <i class="bi bi-quote fs-1 text-white"></i>
+                            <span class="pt-3 text-white fw-bold">
+                                <?= $talent->quote ?>
+                            </span>
+                            <i class="bi bi-quote fs-1 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="education my-3">
+                        <i class="fs-5 bi bi-bookmark-check-fill text-first"></i>
+                        <span class="fw-bold fs-6 mx-1"> Pendidikan</span>
+                        <p>
+                            <?= $talent->summary ?>
+                        </p>
+                    </div>
+                    <div class="nip my-3">
+                        <i class="fs-5 bi bi-shield-fill-check text-first"></i>
+                        <span class="fw-bold fs-6 mx-1"> Nomor Izin Praktek</span>
+                        <p>
+                            <?= $talent->nip ?>
+                        </p>
+                    </div>
+                    <div class="experience my-3">
+                        <i class="fs-5 bi bi-bag-dash-fill text-first"></i>
+                        <span class="fw-bold fs-6 mx-1">
+                            <?= $talent->experience ?> Tahun Pengalaman
+                        </span>
+                    </div>
+                    <!-- <div class="rating my-3">
+                        <i class="fs-5 bi bi-star-fill text-first"></i>
+                        <span class="fw-bold fs-6 mx-1">
+                            <?= round($talent->rating) ?>%
+                        </span>
+                    </div> -->
+                    <div class="line w-25 bgr-first rounded my-3" style="height:15px">
+                    </div>
+
+                    <div class="profile mt-3">
+                        <h6 class="fw-bold"> Podcast Sharing
+                        </h6>
+
+                        <div class="pt-3" id="player"></div>
+
+                    </div>
+                    <div class="btn-order py-3">
+                        <button class="btn btn-danger bg-first border-0 w-100 fw-bold">Konseling Sekarang</button>
+                    </div>
+
+                </div>
             </div>
-        <?php endforeach ?>
+
+        </div>
     </div>
 
 
@@ -141,7 +216,41 @@
 
     <!-- Register Section End -->
     <!-- Feather Icons -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        // Global variable untuk menyimpan objek pemutar video
+        var player;
 
+        // Fungsi untuk memanggil API YouTube dan membuat pemutar video
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '<?= $talent->video ?>', // Ganti VIDEO_ID dengan ID video YouTube yang ingin diputar
+                playerVars: {
+                    autoplay: 1,
+                    disablekb: 1,
+                    modestbranding: 1,
+                    rel: 0,
+                    showinfo: 0,
+                    fs: 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Mendapatkan elemen iframe
+            var iframe = event.target.getIframe();
+
+            // Mengatur ukuran pemutar YouTube sesuai kebutuhan
+            iframe.style.width = '100%';
+            // iframe.style.height = '25rem';
+        }
+
+
+    </script>
     <script>
         AOS.init();
     </script>

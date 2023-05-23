@@ -269,4 +269,40 @@ class ConsultationModel extends CI_Model
         return $query->result();
 
     }
+
+    public function get_data_talent_by_id($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('talents');
+
+        return $query->row(); // mengembalikan sebuah objek hasil query
+    }
+
+    public function talent_relation_category_by_id($id)
+    {
+        $this->db->select('t.*, GROUP_CONCAT(categories.name) as category');
+        $this->db->from('talents t');
+        // $this->db->join('course_has_category', 'courses.id = course_has_category.id_course');
+        $this->db->join('talent_has_category thc', 't.id = thc.id_talent');
+        $this->db->join('categories', 'thc.id_category = categories.id');
+        // $this->db->join('user_has_course_saved uhc', 'c.id = uhc.id_course AND uhc.id_user = ' . $this->session->userdata('id'), 'left');
+        $this->db->group_by('t.id');
+        $this->db->where('id_talent', $id);
+        // $this->db->order_by('created_at', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function talent_relation_service_by_id($id)
+    {
+
+
+        $this->db->select('t.*, services.name as service_name, services.icon as service_icon');
+        $this->db->from('talents t');
+        $this->db->join('talent_has_service ths', 't.id = ths.id_talent');
+        $this->db->join('services', 'ths.id_service = services.id');
+        $this->db->where('t.id', $id);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

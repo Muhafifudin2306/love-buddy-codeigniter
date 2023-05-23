@@ -179,10 +179,12 @@ class User extends CI_Controller
         $data = [
             'id_role' => $this->session->userdata('id_role'),
             'is_login' => $this->session->userdata('is_login'),
-            'categories' => $this->ConsultationModel->get_data_category(),
-            'talents' => $this->ConsultationModel->get_data_talent_relation()
+            'talent_categories' => $this->ConsultationModel->talent_relation_category_by_id($id),
+            'talent_services' => $this->ConsultationModel->talent_relation_service_by_id($id),
+            'talent' => $this->ConsultationModel->get_data_talent_by_id($id)
         ];
         $this->load->view('admin/consultation/detail', $data);
     }
+
 
 }

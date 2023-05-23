@@ -93,12 +93,12 @@
                                 <?= $talent->experience ?> Tahun Pengalaman
                             </span>
                         </div>
-                        <div class="talent-rating mb-2">
+                        <!-- <div class="talent-rating mb-2">
                             <i class="bi bi-star-fill text-first"></i>
                             <span class="text-first">
                                 <?= round($talent->rating) ?>%
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
