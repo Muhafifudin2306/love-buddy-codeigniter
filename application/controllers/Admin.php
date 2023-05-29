@@ -10,6 +10,7 @@ class Admin extends CI_Controller
         $this->load->model('UserModel');
         $this->load->model('FeedbackModel');
         $this->load->model('ConsultationModel');
+        $this->load->model('PaymentModel');
 
         if (empty($this->session->userdata('is_login'))) {
             $this->session->set_flashdata('error', 'Sesi Anda Telah Berakhir');
@@ -532,4 +533,91 @@ class Admin extends CI_Controller
 
     // Setting Page
 
+
+    // Payment Page
+    public function payment()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'features' => $this->PaymentModel->get_data_feature()
+        ];
+        $this->load->view('admin/payment/index', $data);
+    }
+
+    function feature_add()
+    {
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+        ];
+        $this->load->view('admin/feature/add', $data);
+    }
+
+    function feature_save()
+    {
+        $session_count = $this->input->post('session_count');
+        $price = $this->input->post('price');
+        $service = $this->input->post('service');
+        $duration = $this->input->post('duration');
+        $data = array(
+            'session_count' => $session_count,
+            'service' => $service,
+            'price' => $price,
+            'duration' => $duration,
+            // dan seterusnya
+        );
+        $insert_id = $this->PaymentModel->insert_feature($data);
+        if ($insert_id) {
+            $this->session->set_flashdata('success', 'Pesan Terkirim');
+            redirect('/admin/payment');
+        } else {
+            $this->session->set_flashdata('error', 'input salah');
+            redirect('/admin/payment');
+        }
+    }
+    public function delete_feature($id)
+    {
+        $where = array('id' => $id);
+        $this->db->where($where);
+        $this->db->delete('features');
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Delete Berhasil');
+        redirect('admin/payment');
+    }
+
+    function edit_feature($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'feature' => $this->PaymentModel->get_feature_by_id($id)
+        ];
+        $this->load->view('admin/feature/edit', $data);
+    }
+
+    public function update_feature($id)
+    {
+        // Validasi form di sini
+        // ...
+        $session_count = $this->input->post('session_count');
+        $price = $this->input->post('price');
+        $service = $this->input->post('service');
+        $duration = $this->input->post('duration');
+
+        $data = array(
+            'session_count' => $session_count,
+            'price' => $price,
+            'service' => $service,
+            'duration' => $duration,
+            'id' => $id
+        );
+        $this->PaymentModel->updateFeature($data);
+
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Update Berhasil');
+        redirect('admin/payment');
+    }
+    // Payment Page
 }

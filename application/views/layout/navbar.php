@@ -41,6 +41,10 @@
                             <a class="nav-link text-black fs-7" aria-current="page"
                                 href="<?php echo base_url('admin/setting') ?>">Pengaturan</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black fs-7" aria-current="page"
+                                href="<?php echo base_url('admin/payment') ?>">Pembayaran</a>
+                        </li>
                 <?php } ?>
             </ul>
         </div>
