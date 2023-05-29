@@ -540,7 +540,8 @@ class Admin extends CI_Controller
         $data = [
             'id_role' => $this->session->userdata('id_role'),
             'is_login' => $this->session->userdata('is_login'),
-            'features' => $this->PaymentModel->get_data_feature()
+            'features' => $this->PaymentModel->get_data_feature(),
+            'payments' => $this->PaymentModel->get_data_payment()
         ];
         $this->load->view('admin/payment/index', $data);
     }
@@ -616,6 +617,100 @@ class Admin extends CI_Controller
         $this->PaymentModel->updateFeature($data);
 
         // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Update Berhasil');
+        redirect('admin/payment');
+    }
+
+    function payment_add()
+    {
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+        ];
+        $this->load->view('admin/payment/add', $data);
+    }
+    function payment_save()
+    {
+
+        //load library upload
+        $this->load->library('upload');
+
+        //konfigurasi upload
+        $config['upload_path'] = './assets/img/bank';
+        $config['allowed_types'] = '*';
+        $config['max_size'] = 10000;
+
+        //inisialisasi upload
+        $this->upload->initialize($config);
+
+        //jika gagal upload
+        if (!$this->upload->do_upload('image')) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('upload_error', $error);
+            redirect('admin/payment', $error);
+        }
+        //jika berhasil upload
+        else {
+            $data = array(
+                'name' => $this->input->post('name', TRUE),
+                'number' => $this->input->post('number', TRUE),
+                'admin' => $this->input->post('admin', TRUE),
+                'image' => $this->upload->data('file_name')
+            );
+
+
+            if ($this->PaymentModel->insert_payment($data)) {
+                $this->session->set_flashdata(
+                    'success',
+                    'Success Add Data'
+                );
+
+                redirect('admin/payment');
+            }
+        }
+    }
+
+    public function delete_payment($id)
+    {
+        $where = array('id' => $id);
+        $this->db->where($where);
+        $this->db->delete('payments');
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Delete Berhasil');
+        redirect('admin/payment');
+    }
+
+    function edit_payment($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'payment' => $this->PaymentModel->get_payment_by_id($id)
+        ];
+        $this->load->view('admin/payment/edit', $data);
+    }
+
+    public function update_payment($id)
+    {
+
+        $this->load->library('upload');
+
+        //konfigurasi upload
+        $config['upload_path'] = './assets/img/bank';
+        $config['allowed_types'] = '*';
+        $config['max_size'] = 10000;
+
+        //inisialisasi upload
+        $this->upload->initialize($config);
+        $data = array(
+            'name' => $this->input->post('name', TRUE),
+            'number' => $this->input->post('number', TRUE),
+            'admin' => $this->input->post('admin', TRUE),
+            'id' => $id
+
+        );
+        $this->PaymentModel->updatePayment($id, $data);
         $this->session->set_flashdata('success', 'Update Berhasil');
         redirect('admin/payment');
     }

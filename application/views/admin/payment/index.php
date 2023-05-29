@@ -56,13 +56,70 @@
     <div class="py-5 mt-5">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-5">
+                <h5 class="fw-bold">Metode Pembayaran</h5>
+                <a href="<?= base_url('admin/payment_add') ?>">
+                    <button class="btn btn-success">+ Tambah</button>
+                </a>
+            </div>
+            <div class="bg-white p-5 border">
+                <table id="example-1" class="table display">
+                    <thead>
+                        <tr">
+                            <th class="text-center" scope="col">No</th>
+                            <th class="text-center" scope="col">Logo Bank</th>
+                            <th class="text-center" scope="col">Nama Bank</th>
+                            <th class="text-center" scope="col">Nomor</th>
+                            <th class="text-center" scope="col">Atas Nama</th>
+                            <th class="text-center" scope="col">Aksi</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php
+                        $no = 1;
+                        foreach ($payments as $row) {
+                            ?>
+                            <tr class="text-center">
+                                <td class="text-center text-decoration-none">
+                                    <?php echo $no++ ?>
+                                </td>
+                                <td class="text-center">
+                                    <img width="150" src="<?= base_url('assets/img/bank/' . $row->image) ?>" alt="">
+
+                                </td>
+                                <td>
+                                    <?php echo $row->name; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->number; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->admin; ?>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <?php echo anchor('admin/edit_payment/' . $row->id, "<button class='btn btn-primary bg-first border-0'>Edit</button>"); ?>
+                                        <button onclick="return confirm('Do you want delete this record')"
+                                            class="btn btn-danger">
+                                            <?php echo anchor('admin/delete_payment/' . $row->id, "<span class='text-white border-0 text-decoration-none'>Hapus</span>"); ?>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between align-items-center py-5">
                 <h5 class="fw-bold">Paket Layanan</h5>
                 <a href="<?= base_url('admin/feature_add') ?>">
                     <button class="btn btn-success">+ Tambah</button>
                 </a>
             </div>
             <div class="bg-white p-5 border">
-                <table id="example" class="table display">
+                <table id="example-2" class="table display">
                     <thead>
                         <tr">
                             <th class="text-center" scope="col">No</th>
@@ -119,7 +176,10 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function () {
-            $('#example').DataTable();
+            $('#example-1').DataTable();
+        });
+        $(document).ready(function () {
+            $('#example-2').DataTable();
         });
     </script>
 
