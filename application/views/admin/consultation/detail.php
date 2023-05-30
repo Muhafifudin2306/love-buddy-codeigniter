@@ -138,9 +138,22 @@
                     <div class="education my-3">
                         <i class="fs-5 bi bi-bookmark-check-fill text-first"></i>
                         <span class="fw-bold fs-6 mx-1"> Pendidikan</span>
-                        <p>
-                            <?= $talent->summary ?>
-                        </p>
+                        <ul>
+                            <?php foreach ($talent_educations as $row): ?>
+                                <?php
+                                $edu_state = explode(',', $row->state);
+                                $edu_field = explode(',', $row->field);
+                                $edu_univ = explode(',', $row->university);
+                                foreach ($edu_state as $state) {
+                                    foreach ($edu_field as $field) {
+                                        foreach ($edu_univ as $university) {
+                                            echo "<li>" . $state . ' ' . $field . ' ' . $university . "</li>";
+                                        }
+                                    }
+                                }
+                                ?>
+                            <?php endforeach ?>
+                        </ul>
                     </div>
                     <div class="nip my-3">
                         <i class="fs-5 bi bi-shield-fill-check text-first"></i>
@@ -172,7 +185,9 @@
 
                     </div>
                     <div class="btn-order py-3">
-                        <button class="btn btn-danger bg-first border-0 w-100 fw-bold">Konseling Sekarang</button>
+                        <a href="<?= site_url('user/form_consultation/' . $talent->id) ?>">
+                            <button class="btn btn-danger bg-first border-0 w-100 fw-bold">Konseling Sekarang</button>
+                        </a>
                     </div>
 
                 </div>

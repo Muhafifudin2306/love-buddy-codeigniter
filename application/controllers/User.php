@@ -9,6 +9,7 @@ class User extends CI_Controller
         parent::__construct();
         $this->load->model('AuthModel');
         $this->load->model('UserModel');
+        $this->load->model('PaymentModel');
         $this->load->model('ConsultationModel');
         $this->load->library('pagination');
 
@@ -181,9 +182,25 @@ class User extends CI_Controller
             'is_login' => $this->session->userdata('is_login'),
             'talent_categories' => $this->ConsultationModel->talent_relation_category_by_id($id),
             'talent_services' => $this->ConsultationModel->talent_relation_service_by_id($id),
+            'talent_educations' => $this->ConsultationModel->talent_relation_education_by_id($id),
             'talent' => $this->ConsultationModel->get_data_talent_by_id($id)
         ];
         $this->load->view('admin/consultation/detail', $data);
+    }
+
+    public function form_consultation($id)
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'talent_categories' => $this->ConsultationModel->talent_relation_category_by_id($id),
+            'talent_services' => $this->ConsultationModel->talent_relation_service_by_id($id),
+            'talent_educations' => $this->ConsultationModel->talent_relation_education_by_id($id),
+            'talent' => $this->ConsultationModel->get_data_talent_by_id($id),
+            'features' => $this->PaymentModel->get_data_feature(),
+            'payments' => $this->PaymentModel->get_data_payment()
+        ];
+        $this->load->view('order/form', $data);
     }
 
 

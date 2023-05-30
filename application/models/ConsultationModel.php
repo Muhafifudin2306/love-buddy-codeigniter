@@ -295,13 +295,26 @@ class ConsultationModel extends CI_Model
 
     public function talent_relation_service_by_id($id)
     {
-
-
         $this->db->select('t.*, services.name as service_name, services.icon as service_icon');
         $this->db->from('talents t');
         $this->db->join('talent_has_service ths', 't.id = ths.id_talent');
         $this->db->join('services', 'ths.id_service = services.id');
         $this->db->where('t.id', $id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function talent_relation_education_by_id($id)
+    {
+        $this->db->select('t.*,educations.state as state,educations.field as field,educations.university as university');
+        $this->db->from('talents t');
+        // $this->db->join('course_has_category', 'courses.id = course_has_category.id_course');
+        $this->db->join('talent_has_education the', 't.id = the.id_talent');
+        $this->db->join('educations', 'the.id_education = educations.id');
+        // $this->db->join('user_has_course_saved uhc', 'c.id = uhc.id_course AND uhc.id_user = ' . $this->session->userdata('id'), 'left');
+        // $this->db->group_by('t.id');
+        $this->db->where('id_talent', $id);
+        // $this->db->order_by('created_at', 'desc');
         $query = $this->db->get();
         return $query->result();
     }
