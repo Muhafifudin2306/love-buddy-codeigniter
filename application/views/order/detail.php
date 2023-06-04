@@ -3,7 +3,7 @@
 
 <head>
     <?php $this->load->view('layout/style'); ?>
-    <title>Admin LoveBuddy.id | Feedback </title>
+    <title>Admin LoveBuddy.id | Detail Pembayaran </title>
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
 
@@ -147,7 +147,7 @@
         <div class="container">
             <div class="d-flex justify-content-between pt-5 pb-3">
                 <h5 class="fw-bold">Pesan Layanan Konsultasi</h5>
-                <a href="<?= site_url('front') ?>">
+                <a href="<?= site_url('order/my_order') ?>">
                     <i class="bi bi-x text-first fs-1"></i></a>
 
             </div>
@@ -175,7 +175,7 @@
                                     <i class="fs-5 bi bi-bookmark-check-fill text-first"></i>
                                     <span class="fw-bold fs-6 mx-1"> Pendidikan</span>
                                     <ul>
-                                        <?php foreach ($talent_educations as $row): ?>
+                                        <?php foreach ($talent_educations as $row) : ?>
                                             <?php
                                             $edu_state = explode(',', $row->state);
                                             $edu_field = explode(',', $row->field);
@@ -213,10 +213,7 @@
                         <div class="row">
                             <div class="col-md-12 mx-0">
                                 <div class="p-5">
-                                    <form id="msform" method="post" action="<?= site_url('order/save_order') ?>">
-                                        <input type="text" name="id_user" value="<?= $id ?>" required hidden />
-                                        <input type="text" name="id_talent" value="<?= $talent->id ?>" required
-                                            hidden />
+                                    <form id="msform">
                                         <!-- progressbar -->
                                         <ul id="progressbar">
                                             <li class="active" id="personal"><strong>Data Personal</strong></li>
@@ -227,183 +224,164 @@
                                         <!-- fieldsets -->
                                         <fieldset>
                                             <div class="form-card">
-                                                <h2 class="fs-title py-5">Lengkapi Data Diri</h2>
+                                                <h2 class="fs-title py-5">Data Diri</h2>
                                                 <div class="mb-3">
-                                                    <input type="text" name="name" placeholder="Nama Lengkap"
-                                                        required />
-                                                </div>
-                                                <div class="mb-2">
-                                                    <input type="date" name="birthday"
-                                                        placeholder="Masukkan Tanggal Lahir" required />
-                                                </div>
-                                                <div class="mb-4">
-                                                    <select class="list-dt w-100" name="sex" required>
-                                                        <option selected>Jenis Kelamin Anda</option>
-                                                        <option value="Laki-Laki">Laki-Laki</option>
-                                                        <option value="Perempuan">Perempuan</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <input type="text" name="number" placeholder="Nomor Telepon/WA"
-                                                        required />
-                                                </div>
-                                                <div class="mb-4">
-                                                    <select class="list-dt w-100" name="education" required>
-                                                        <option selected>Pendidikan Terakhir Anda</option>
-                                                        <option>Belum Sekolah</option>
-                                                        <option>SD/MI</option>
-                                                        <option>SMP/MTS</option>
-                                                        <option>SMA/SMK</option>
-                                                        <option>S1</option>
-                                                        <option>S2</option>
-                                                        <option>S3</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <input type="text" name="job" required placeholder="Pekerjaan" />
+                                                    <input type="text" name="name" value="<?= $order->name ?>" disabled />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <select class="list-dt w-100" name="status" required>
-                                                        <option selected>Status Anda</option>
-                                                        <option value="1">Sudah Menikah</option>
-                                                        <option value="0">Belum Menikah</option>
-                                                    </select>
+                                                    <input type="date" name="birthday" value="<?= $order->birthday ?>" disabled />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="date" name="birthday" value="<?= $order->sex ?>" disabled />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" name="number" value="<?= $order->number ?>" disabled />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" name="education" value="<?= $order->education ?>" disabled />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" name="job" value="<?= $order->job ?>" disabled />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <?php if ($order->status == 0) : ?>
+                                                        <input type="text" name="job" value="Belum Menikah" disabled />
+                                                    <?php elseif ($order->status == 1) : ?>
+                                                        <input type="text" name="job" value="Sudah Menikah" disabled />
+                                                    <?php endif ?>
                                                 </div>
                                             </div>
-                                            <input type="button" name="next"
-                                                class="next action-button bg-first text-white my-3 py-2 px-4"
-                                                value="Selanjutnya" />
+                                            <input type="button" name="next" class="next action-button bg-first text-white my-3 py-2 px-4" value="Selanjutnya" />
                                         </fieldset>
                                         <fieldset>
                                             <div class="form-card">
-                                                <h6 class="pt-5 pb-3 text-black fw-bold">Pilih Jenis Paket</h6>
+                                                <h6 class="pt-5 pb-3 text-black fw-bold">Jenis Paket Dipiih</h6>
 
                                                 <div class="row">
                                                     <?php
-                                                    $no = 1;
-                                                    foreach ($features as $item): ?>
-                                                        <div class="col-md-4 mb-3">
-                                                            <div class="bg-white border rounded">
-                                                                <input type="radio" id="control_0<?= $no ?>"
-                                                                    name="id_feature" value="<?= $item->id ?>" required>
-                                                                <label for="control_0<?= $no++ ?>" class="p-2 w-100">
-                                                                    <div
-                                                                        class="fw-bold text-center text-white w-100 p-2 rounded bgr-first fs-7 mb-2">
-                                                                        <?= $item->session_count ?> Sesi
-                                                                    </div>
-                                                                    <h4 class="text-black text-center">Rp
-                                                                        <?= number_format($item->price, 0, ',', '.'); ?>
-                                                                    </h4>
-                                                                    <h6 class="text-center text-black fs-8">
-                                                                        <?= $item->duration ?>
-                                                                    </h6>
-                                                                    <h6 class="text-center text-black fs-8">
-                                                                        <?= $item->service ?>
-                                                                    </h6>
-                                                                    <h6 class="text-center text-first fs-8 f">*pilih salah
-                                                                        satu
-                                                                    </h6>
-
-                                                                </label>
-                                                            </div>
+                                                    $no = 1; ?>
+                                                    <div class="col-md-4 mb-3">
+                                                        <div class="bg-white border rounded">
+                                                            <input type="radio" id="control_01" name="id_feature" sele disabled>
+                                                            <label for="control_01" class="p-2 w-100">
+                                                                <div class="fw-bold text-center text-white w-100 p-2 rounded bgr-first fs-7 mb-2">
+                                                                    <?= $order->feature_session_count ?> Sesi
+                                                                </div>
+                                                                <h4 class="text-black text-center">Rp
+                                                                    <?= number_format($order->feature_price, 0, ',', '.'); ?>
+                                                                </h4>
+                                                                <h6 class="text-center text-black fs-8">
+                                                                    <?= $order->feature_duration ?>
+                                                                </h6>
+                                                                <h6 class="text-center text-black fs-8">
+                                                                    <?= $order->feature_service ?>
+                                                                </h6>
+                                                            </label>
                                                         </div>
-                                                    <?php endforeach ?>
+                                                    </div>
                                                 </div>
 
-                                                <h6 class="py-2 text-black fw-bold">Pilih Waktu</h6>
+                                                <h6 class="py-2 text-black fw-bold">Waktu Konsultasi</h6>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="mb-2">
-                                                            <input type="date" name="date_order"
-                                                                placeholder="Masukkan Tanggal Pesanan" required />
+                                                        <div class="mb-3">
+                                                            <input type="date" name="date_order" value="<?= $order->date_order ?>" disabled />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="mb-2 mt-1">
-                                                            <select class="list-dt w-100" name="time_order"
-                                                                aria-required="true">
-                                                                <option selected>Pilih Sesi Waktu</option>
-                                                                <option value="08.00-09.00">08.00 - 09.00</option>
-                                                                <option value="09.00-10.00">09.00 - 10.00</option>
-                                                                <option value="10.00-11.00">10.00 - 11.00</option>
-                                                                <option value="11.00-12.00">11.00 - 12.00</option>
-                                                                <option value="12.00-13.00">12.00 - 13.00</option>
-                                                                <option value="13.00-14.00">13.00 - 14.00</option>
-                                                                <option value="14.00-15.00">14.00 - 15.00</option>
-                                                                <option value="15.00-16.00">15.00 - 16.00</option>
-                                                                <option value="16.00-17.00">16.00 - 17.00</option>
-                                                                <option value="19.00-20.00">19.00 - 20.00</option>
-                                                            </select>
+                                                        <div class="mb-3">
+                                                            <input type="text" name="time_order" value="<?= $order->time_order ?>" disabled />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <h6 class="py-2 text-black fw-bold">Email</h6>
-                                                <div class="mb-2">
-                                                    <input type="email" name="email" placeholder="example@example.com"
-                                                        required />
+                                                <div class="mb-3">
+                                                    <input type="email" name="email" value="<?= $order->email ?>" disabled />
                                                 </div>
                                                 <h6 class="py-3 text-black fw-bold">Deskripsi Masalah</h6>
                                                 <div class="mb-2">
-                                                    <textarea id="editor1" class="form-control" name="desc"
-                                                        rows="5"></textarea>
+                                                    <textarea id="editor1" class="form-control" name="desc" rows="5" disabled><?= $order->desc ?></textarea>
                                                 </div>
                                                 <h6 class="py-3 text-black fw-bold">Harapan Setelah Konseling</h6>
                                                 <div class="mb-2">
-                                                    <textarea id="editor2" class="form-control" name="solution"
-                                                        rows="5"></textarea>
+                                                    <textarea id="editor2" class="form-control" name="solution" rows="5" disabled><?= $order->solution ?></textarea>
                                                 </div>
                                             </div>
-                                            <input type="button" name="next"
-                                                class="next action-button bg-first text-white my-1 py-2 px-4"
-                                                value="Selanjutnya" />
-                                            <input type="button" name="previous"
-                                                class="w-100 previous action-button-previous" value="Kembali" />
+                                            <input type="button" name="next" class="next action-button bg-first text-white my-1 py-2 px-4" value="Selanjutnya" />
+                                            <input type="button" name="previous" class="w-100 previous action-button-previous" value="Kembali" />
                                         </fieldset>
                                         <fieldset>
                                             <div class="form-card">
-                                                <h6 class="pt-5 pb-3 text-black fw-bold">Pilih Metode Pembayaran</h6>
+                                                <h6 class="pt-5 pb-3 text-black fw-bold">Metode Pembayaran Dipilih</h6>
                                                 <?php
-                                                $no = 1;
-                                                foreach ($payments as $row): ?>
-                                                    <div class="inputGroup border">
-                                                        <input id="radio<?= $no ?>" value="<?= $row->id ?>"
-                                                            name="id_payment" type="radio" />
-                                                        <label for="radio<?= $no++ ?>">
-                                                            <img width="75"
-                                                                src="<?= base_url('assets/img/bank/' . $row->image) ?>"
-                                                                alt="">
-                                                            <span class="fw-bold mx-2">
-                                                                <?= $row->name ?>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                <?php endforeach ?>
+                                                $no = 1; ?>
+                                                <div class="inputGroup border">
+                                                    <input id="radio1" name="id_payment" type="radio" disabled />
+                                                    <label for="radio1">
+                                                        <div class="d-flex">
+                                                            <img width="100" class="object-fit-contain" src="<?= base_url('assets/img/bank/' . $order->payment_image) ?>" alt="">
+                                                            <div>
+                                                                <p class="text-black mx-2">
+                                                                    <?= $order->payment_name ?>
+                                                                </p>
+                                                                <p class="text-black mx-2">
+                                                                    Nomor Rekening : <?= $order->payment_number ?>
+                                                                </p>
+                                                                <p class="text-black mx-2">
+                                                                    Atas Nama : <?= $order->payment_admin ?>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <input type="submit" name="make_payment"
-                                                class="next action-button bg-first text-white my-1 py-2 px-4"
-                                                value="Confirm" />
-                                            <input type="button" name="previous"
-                                                class="w-100 previous action-button-previous" value="Kembali" />
+                                            <input type="button" name="make_payment" class="next action-button bg-first text-white my-1 py-2 px-4" value="Status" />
+                                            <input type="button" name="previous" class="w-100 previous action-button-previous" value="Kembali" />
                                         </fieldset>
                                         <fieldset>
                                             <div class="form-card">
-                                                <h2 class="fs-title text-center">Success !</h2>
-                                                <br><br>
-                                                <div class="row justify-content-center">
-                                                    <div class="col-3">
-                                                        <img src="https://img.icons8.com/color/96/000000/ok--v2.png"
-                                                            class="fit-image">
-                                                    </div>
+                                                <div class="d-flex justify-content-between pt-5">
+                                                    <span class="fw-medium text-black">Status Pembayaran</span>
+                                                    <?php if ($order->payment_status == 'Pending') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-warning"><?php echo $order->payment_status; ?></button>
+                                                    <?php elseif ($order->payment_status == 'Revisi') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-danger"><?php echo $order->payment_status; ?></button>
+                                                    <?php elseif ($order->payment_status == 'Terkirim') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-info">Dalam Proses</button>
+                                                    <?php elseif ($order->payment_status == 'Gagal') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-danger"><?php echo $order->payment_status; ?></button>
+                                                    <?php elseif ($order->payment_status == 'Sukses') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-success"><?php echo $order->payment_status; ?></button>
+                                                    <?php endif ?>
                                                 </div>
-                                                <br><br>
-                                                <div class="row justify-content-center">
-                                                    <div class="col-7 text-center">
-                                                        <h5>You Have Successfully Signed Up</h5>
-                                                    </div>
+                                                <div class="d-flex justify-content-between pt-3 pb-5">
+                                                    <span class="fw-medium text-black">Status Order</span>
+                                                    <?php if ($order->order_status == 'Pending') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-warning"><?php echo $order->order_status; ?></button>
+                                                    <?php elseif ($order->order_status == 'Gagal') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-danger"><?php echo $order->order_status; ?></button>
+                                                    <?php elseif ($order->order_status == 'Sukses') : ?>
+                                                        <button style="font-size: 12px;" class="btn btn-success"><?php echo $order->order_status; ?></button>
+                                                    <?php endif ?>
                                                 </div>
+                                                <?php if ($order->payment_status == 'Revisi' || $order->payment_status == 'Gagal' || $order->order_status == 'Gagal') : ?>
+                                                    <div class="pb-2">
+                                                        <label class="fw-bold text-black" for="">Pesan Error</label>
+                                                        <p class="text-black">
+                                                            <?= $order->message; ?></p>
+                                                    </div>
+                                                <?php endif ?>
                                             </div>
+                                            <input type="button" name="previous" class="w-100 previous action-button-previous" value="Kembali" />
                                         </fieldset>
                                     </form>
+                                    <?php if ($order->payment_status == 'Pending') : ?>
+                                        <?php echo anchor('order/edit_payment/' . $order->id, "<button class='w-100 bg-first text-white my-1 py-2 px-4 fw-bold border-first'>Bayar Sekarang</button>"); ?>
+                                    <?php elseif ($order->payment_status == 'Revisi' || $order->payment_status == 'Gagal') : ?>
+                                        <?php echo anchor('order/edit_payment/' . $order->id, "<button class='w-100 bg-first text-white my-1 py-2 px-4 fw-bold border-first'>Ulangi Pembayaran</button>"); ?>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
@@ -420,8 +398,7 @@
     <footer class="bgr-first p-3">
         <div class="container">
             <div class="socials d-flex justify-content-center gap-3 pt-4">
-                <a class="text-white" href="https://www.instagram.com/lovebuddy.id/"><i
-                        data-feather="instagram"></i></a>
+                <a class="text-white" href="https://www.instagram.com/lovebuddy.id/"><i data-feather="instagram"></i></a>
                 <a class="text-white" href="#"><i data-feather="twitter"></i></a>
                 <a class="text-white" href="#"><i data-feather="facebook"></i></a>
             </div>
@@ -444,12 +421,12 @@
     </footer>
     <!-- Footer end -->
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             var current_fs, next_fs, previous_fs; //fieldsets
             var opacity;
 
-            $(".next").click(function () {
+            $(".next").click(function() {
 
                 current_fs = $(this).parent();
                 next_fs = $(this).parent().next();
@@ -463,7 +440,7 @@
                 current_fs.animate({
                     opacity: 0
                 }, {
-                    step: function (now) {
+                    step: function(now) {
                         // for making fielset appear animation
                         opacity = 1 - now;
 
@@ -479,7 +456,7 @@
                 });
             });
 
-            $(".previous").click(function () {
+            $(".previous").click(function() {
 
                 current_fs = $(this).parent();
                 previous_fs = $(this).parent().prev();
@@ -494,7 +471,7 @@
                 current_fs.animate({
                     opacity: 0
                 }, {
-                    step: function (now) {
+                    step: function(now) {
                         // for making fielset appear animation
                         opacity = 1 - now;
 
@@ -510,12 +487,12 @@
                 });
             });
 
-            $('.radio-group .radio').click(function () {
+            $('.radio-group .radio').click(function() {
                 $(this).parent().find('.radio').removeClass('selected');
                 $(this).addClass('selected');
             });
 
-            $(".submit").click(function () {
+            $(".submit").click(function() {
                 return false;
             })
 

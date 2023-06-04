@@ -192,6 +192,7 @@ class User extends CI_Controller
     {
         $data = [
             'id_role' => $this->session->userdata('id_role'),
+            'id' => $this->session->userdata('id'),
             'is_login' => $this->session->userdata('is_login'),
             'talent_categories' => $this->ConsultationModel->talent_relation_category_by_id($id),
             'talent_services' => $this->ConsultationModel->talent_relation_service_by_id($id),

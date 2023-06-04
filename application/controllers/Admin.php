@@ -10,6 +10,7 @@ class Admin extends CI_Controller
         $this->load->model('UserModel');
         $this->load->model('FeedbackModel');
         $this->load->model('ConsultationModel');
+        $this->load->model('OrderModel');
         $this->load->model('PaymentModel');
 
         if (empty($this->session->userdata('is_login'))) {
@@ -526,7 +527,6 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('success', 'Update Berhasil');
             redirect('admin/setting');
         }
-
     }
     // Consultation Page
 
@@ -715,4 +715,72 @@ class Admin extends CI_Controller
         redirect('admin/payment');
     }
     // Payment Page
+
+    // Order Page
+    public function order_all()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'orders' => $this->OrderModel->get_all_data_order()
+        ];
+        $this->load->view('admin/order/index', $data);
+    }
+    public function order_pending()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'orders' => $this->OrderModel->get_data_order_pending()
+        ];
+        $this->load->view('admin/order/index', $data);
+    }
+    public function order_success()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'orders' => $this->OrderModel->get_data_order_success()
+        ];
+        $this->load->view('admin/order/index', $data);
+    }
+    public function order_fail()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'orders' => $this->OrderModel->get_data_order_fail()
+        ];
+        $this->load->view('admin/order/index', $data);
+    }
+
+    function order_edit_status($id)
+    {
+        $where = array('id' => $id);
+        $data = [
+            'is_login' => $this->session->userdata('is_login'),
+            'id_role' => $this->session->userdata('id_role'),
+            'order' => $this->OrderModel->get_order_by_id($id)
+        ];
+        $this->load->view('admin/order/edit', $data);
+    }
+
+    public function update_order_status($id)
+    {
+        // Validasi form di sini
+        // ...
+
+        $data = array(
+            'order_status' => $this->input->post('order_status'),
+            'payment_status' => $this->input->post('payment_status'),
+            'message' => $this->input->post('message'),
+            'id' => $id
+        );
+        $this->OrderModel->updateOrder($id, $data);
+
+        // Menampilkan pesan sukses dan redirect ke halaman lain
+        $this->session->set_flashdata('success', 'Update Berhasil');
+        redirect('admin/order_all');
+    }
+    // Order Page
 }
