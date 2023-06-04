@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    
+
     <?php $this->load->view('layout/style'); ?>
     <title>LoveBuddy.id</title>
     <!-- SweetAlert2 CSS -->
@@ -10,7 +10,7 @@
 
     <!-- SweetAlert2 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
-    
+
 </head>
 
 <body>
@@ -69,8 +69,7 @@
 
                     <!-- </a> -->
                     <?php if ($is_login) { ?>
-                        <button class="btn btn-danger px-4 border-0 fs-7 py-3 rounded-5 bg-first" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
+                        <button class="btn btn-danger px-4 border-0 fs-7 py-3 rounded-5 bg-first" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Jadwalkan Konsultasimu</button>
                     <?php } else { ?>
                         <button id="check-account-btn" class="btn btn-danger px-4 border-0 fs-7 py-3 rounded-5 bg-first">
@@ -86,8 +85,7 @@
             <div class="modal-content rounded-5">
                 <div class="modal-body bg-two rounded-5 p-4">
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn-close p-2 bg-white rounded-circle" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close p-2 bg-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="row">
                         <div class="col-sm-5 py-4">
@@ -95,12 +93,12 @@
                             <h6 class="fw-thin text-center mb-3">By Whatsapp</h6>
                             <div class="d-flex justify-content-center">
                                 <div class="d-flex justify-content-center">
-                                <a target="_blank" href="http://wa.me/6282329053400?text=Hai%20Buddy,%20aku%20mau%20konseling%20nih!">
-                                    <button class="btn btn-danger px-5 py-2 bg-first border-0 rounded-5">Jadwalkan
-                                    Konsultasi</button>
-                                </a>
-                               
-                            </div>
+                                    <a target="_blank" href="<?= site_url('user/voice_call_consultation') ?>">
+                                        <button class="btn btn-danger px-5 py-2 bg-first border-0 rounded-5">Jadwalkan
+                                            Konsultasi</button>
+                                    </a>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-2 p-4 d-flex justify-content-center">
@@ -111,8 +109,10 @@
                             <h4 class="fw-bold text-center mb-3">Konseling Video Call</h4>
                             <h6 class="fw-thin text-center mb-3">By Google Meet</h6>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-secondary px-5 py-2 border-0 rounded-5">Coming
-                                    Soon</button>
+                                <a target="_blank" href="<?= site_url('user/video_call_consultation') ?>">
+                                    <button class="btn btn-danger px-5 py-2 bg-first border-0 rounded-5">Jadwalkan
+                                        Konsultasi</button>
+                                </a>
                             </div>
                         </div>
 
@@ -130,9 +130,7 @@
             </h2>
             <div class="row mt-5">
                 <div class="col-md-5" data-aos="zoom-in" data-aos-duration="1000">
-                    <img class="w-100"
-                        src="https://img.freepik.com/free-vector/love-illustration-concept_114360-867.jpg?size=626&ext=jpg&ga=GA1.1.620035632.1680358173&semt=robertav1_2_sidr"
-                        alt="Tentang Kami" />
+                    <img class="w-100" src="https://img.freepik.com/free-vector/love-illustration-concept_114360-867.jpg?size=626&ext=jpg&ga=GA1.1.620035632.1680358173&semt=robertav1_2_sidr" alt="Tentang Kami" />
                 </div>
                 <div class="col-md-7" data-aos="zoom-in" data-aos-duration="1300">
                     <div class="content">
@@ -178,8 +176,7 @@
                 <div class="col-lg-3 col-md-4" data-aos="zoom-in" data-aos-duration="1200">
                     <div class="image-service">
                         <a href="#">
-                            <img class="w-100 p-4"
-                                src="https://img.freepik.com/free-vector/strategic-consulting-concept-illustration_114360-8994.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.2.620035632.1680358173" />
+                            <img class="w-100 p-4" src="https://img.freepik.com/free-vector/strategic-consulting-concept-illustration_114360-8994.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.2.620035632.1680358173" />
                         </a>
                     </div>
                     <div class="service-content">
@@ -190,8 +187,7 @@
                 <div class="col-lg-3 col-md-4" data-aos="zoom-in" data-aos-duration="1200">
                     <div class="image-service">
                         <a href="#">
-                            <img class="w-100 p-4"
-                                src="https://img.freepik.com/free-vector/work-progress-concept-illustration_114360-5241.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.2.620035632.1680358173" />
+                            <img class="w-100 p-4" src="https://img.freepik.com/free-vector/work-progress-concept-illustration_114360-5241.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.2.620035632.1680358173" />
                         </a>
                     </div>
                     <div class="service-content">
@@ -201,8 +197,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4" data-aos="zoom-in" data-aos-duration="1200">
                     <div class="image-service">
-                        <img src="https://img.freepik.com/free-vector/mobile-marketing-concept-illustration_114360-1497.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.2.620035632.1680358173"
-                            alt="Espresso" class="menu-card-img w-100 p-4" />
+                        <img src="https://img.freepik.com/free-vector/mobile-marketing-concept-illustration_114360-1497.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.2.620035632.1680358173" alt="Espresso" class="menu-card-img w-100 p-4" />
 
                     </div>
                     <div class="service-content">
@@ -213,8 +208,7 @@
                 <div class="col-lg-3 col-md-4" data-aos="zoom-in" data-aos-duration="1200">
                     <div class="image-service">
                         <a href="#">
-                            <img class="w-100 p-4"
-                                src="https://img.freepik.com/free-vector/instant-information-concept-illustration_114360-5264.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173" />
+                            <img class="w-100 p-4" src="https://img.freepik.com/free-vector/instant-information-concept-illustration_114360-5264.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173" />
                         </a>
                     </div>
                     <div class="service-content">
@@ -237,13 +231,10 @@
                 <div class="col-md-6 pb-4" data-aos="zoom-in" data-aos-duration="1200">
                     <div class="p-5 border-first w-100">
                         <div class="product-icons d-flex justify-content-center my-2">
-                            <a class="fs-4 p-2 px-3 text-first bg-transparent border-first rounded-circle" href="#"><i
-                                    data-feather="log-in"></i></a>
+                            <a class="fs-4 p-2 px-3 text-first bg-transparent border-first rounded-circle" href="#"><i data-feather="log-in"></i></a>
                         </div>
                         <div class="product-image d-flex justify-content-center">
-                            <img class="w-50"
-                                src="https://img.freepik.com/free-vector/select-house-concept-illustration_114360-4395.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173"
-                                alt="Product 1" />
+                            <img class="w-50" src="https://img.freepik.com/free-vector/select-house-concept-illustration_114360-4395.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173" alt="Product 1" />
                         </div>
                         <div class="product-content">
                             <h5 class="text-center fw-bold py-2">Login Aplikasi</h5>
@@ -256,14 +247,11 @@
                 <div class="col-md-6 pb-4" data-aos="zoom-in" data-aos-duration="1400">
                     <div class="p-5 border-first w-100">
                         <div class="product-icons d-flex justify-content-center my-2">
-                            <a class="fs-4 p-2 px-3 text-first bg-transparent border-first rounded-circle" href="#"><i
-                                    data-feather="filter"></i>
+                            <a class="fs-4 p-2 px-3 text-first bg-transparent border-first rounded-circle" href="#"><i data-feather="filter"></i>
                             </a>
                         </div>
                         <div class="product-image d-flex justify-content-center">
-                            <img class="w-50"
-                                src="https://img.freepik.com/free-vector/curiosity-people-concept-illustration_114360-11034.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173"
-                                alt="Product 1" />
+                            <img class="w-50" src="https://img.freepik.com/free-vector/curiosity-people-concept-illustration_114360-11034.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173" alt="Product 1" />
                         </div>
                         <div class="product-content">
                             <h5 class="text-center fw-bold py-2">Pilih Konselor Tepat</h5>
@@ -276,14 +264,11 @@
                 <div class="col-md-6 pb-4" data-aos="zoom-in" data-aos-duration="1600">
                     <div class="p-5 border-first w-100">
                         <div class="product-icons d-flex justify-content-center my-2">
-                            <a class="fs-4 p-2 px-3 text-first bg-transparent border-first rounded-circle" href="#"><i
-                                    data-feather="calendar"></i>
+                            <a class="fs-4 p-2 px-3 text-first bg-transparent border-first rounded-circle" href="#"><i data-feather="calendar"></i>
                             </a>
                         </div>
                         <div class="product-image d-flex justify-content-center">
-                            <img class="w-50"
-                                src="https://img.freepik.com/free-vector/select-house-concept-illustration_114360-4395.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173"
-                                alt="Product 1" />
+                            <img class="w-50" src="https://img.freepik.com/free-vector/select-house-concept-illustration_114360-4395.jpg?size=626&ext=jpg&uid=R72551851&ga=GA1.1.620035632.1680358173" alt="Product 1" />
                         </div>
                         <div class="product-content">
                             <h5 class="text-center fw-bold py-2">Jadwalkan Konsultasimu</h5>
@@ -306,8 +291,7 @@
 
             <div class="bg-white border shadow" data-aos="zoom-in" data-aos-duration="1300">
                 <div class="p-5">
-                    <p class="text-center fs-5">Saran dan kritik kalian sangat berarti untuk, <span
-                            class="text-first fst-italic fw-bold">LoveBuddy</span> </p>
+                    <p class="text-center fs-5">Saran dan kritik kalian sangat berarti untuk, <span class="text-first fst-italic fw-bold">LoveBuddy</span> </p>
                     <form action="<?= base_url('front/save_feedback') ?>" method="post" class="pt-4">
                         <div class="mb-3">
                             <label class="form-label">Nama</label>
@@ -315,8 +299,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email address</label>
-                            <input type="email" name="email" placeholder="example@example.com" class="form-control"
-                                required>
+                            <input type="email" name="email" placeholder="example@example.com" class="form-control" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">No. Telepon</label>
@@ -341,8 +324,7 @@
     <footer class="bgr-first p-3">
         <div class="container">
             <div class="socials d-flex justify-content-center gap-3 pt-4">
-                <a class="text-white" href="https://www.instagram.com/lovebuddy.id/"><i
-                        data-feather="instagram"></i></a>
+                <a class="text-white" href="https://www.instagram.com/lovebuddy.id/"><i data-feather="instagram"></i></a>
                 <a class="text-white" href="#"><i data-feather="twitter"></i></a>
                 <a class="text-white" href="#"><i data-feather="facebook"></i></a>
             </div>
@@ -376,7 +358,7 @@
     <?php $this->load->view('layout/script'); ?>
     <script>
         // Menambahkan event listener pada tombol "Cek Akun"
-        document.getElementById("check-account-btn").addEventListener("click", function () {
+        document.getElementById("check-account-btn").addEventListener("click", function() {
             // Menampilkan modal dialog SweetAlert2
             Swal.fire({
                 title: 'Apakah Anda sudah memiliki akun?',
@@ -398,7 +380,6 @@
                 }
             });
         });
-
     </script>
 </body>
 

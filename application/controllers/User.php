@@ -175,6 +175,28 @@ class User extends CI_Controller
         $this->load->view('admin/consultation/index', $data);
     }
 
+    public function voice_call_consultation()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'categories' => $this->ConsultationModel->get_data_category(),
+            'talents' => $this->ConsultationModel->get_data_talent_relation_voice_call(1)
+        ];
+        $this->load->view('admin/consultation/index', $data);
+    }
+    public function video_call_consultation()
+    {
+        $data = [
+            'id_role' => $this->session->userdata('id_role'),
+            'is_login' => $this->session->userdata('is_login'),
+            'categories' => $this->ConsultationModel->get_data_category(),
+            'talents' => $this->ConsultationModel->get_data_talent_relation_voice_call(2)
+        ];
+        $this->load->view('admin/consultation/index', $data);
+    }
+
+
     public function consultation_detail($id)
     {
         $data = [
@@ -203,6 +225,4 @@ class User extends CI_Controller
         ];
         $this->load->view('order/form', $data);
     }
-
-
 }

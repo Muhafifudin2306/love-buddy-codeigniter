@@ -127,6 +127,7 @@ class ConsultationModel extends CI_Model
     {
         return $this->db->get('talents')->result();
     }
+
     public function insert_talent($data)
     {
         $this->db->insert('talents', $data);
@@ -235,7 +236,6 @@ class ConsultationModel extends CI_Model
             );
             $this->db->where('id', $id);
             $this->db->update('talents', $data);
-
         } else {
             $data = array(
                 'name' => $name,
@@ -267,7 +267,27 @@ class ConsultationModel extends CI_Model
         // $this->db->order_by('created_at', 'desc');
         $query = $this->db->get();
         return $query->result();
+    }
 
+    public function get_data_talent_relation_voice_call($id_service)
+    {
+        $this->db->select('t.*, GROUP_CONCAT(categories.name) as category');
+        $this->db->from('talents t');
+        // $this->db->join('course_has_category', 'courses.id = course_has_category.id_course');
+        $this->db->join('talent_has_category thc', 't.id = thc.id_talent');
+        $this->db->join('talent_has_service ths', 't.id = ths.id_talent');
+        $this->db->join('categories', 'thc.id_category = categories.id');
+        $this->db->join('talents', 'thc.id_talent = talents.id');
+        // $this->db->join('user_has_course_saved uhc', 'c.id = uhc.id_course AND uhc.id_user = ' . $this->session->userdata('id'), 'left');
+        $this->db->group_by('t.id');
+        $this->db->where('ths.id_service', $id_service);
+
+        // $this->db->select('talents.*, GROUP_CONCAT(categories.name) as category');
+        // $this->db->from('talents');
+        // $this->db->join('talent_has_service', 'talent_has_service.id_talent = talents.id');
+        // $this->db->where('talent_has_service.id_service', $id_service);
+        $query = $this->db->get();
+        return $query->result();
     }
 
     public function get_data_talent_by_id($id)
